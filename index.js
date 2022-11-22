@@ -16,7 +16,8 @@ var newsDataArr = [];
 // apis 
 // const API_KEY = "5ef11622a30d4acd8c9ac212a25894d6";
 // const API_KEY = "d570ee4aebf1fefd6ca37f95a84a10bb";
-const HEADLINES_NEWS = "http://api.mediastack.com/v1/news?access_key=d570ee4aebf1fefd6ca37f95a84a10bb&languages=en "
+// const HEADLINES_NEWS = "http://api.mediastack.com/v1/news?access_key=d570ee4aebf1fefd6ca37f95a84a10bb&languages=en "
+const HEADLINES_NEWS="https://api.nytimes.com/svc/search/v2/articlesearch.json?q=new+york+times&page=2&sort=oldest&api-key=uxi5UzhaUptv7E1iwWN11xr7FvHYVBTa"
 // const HEADLINES_NEWS = "https://newsapi.org/v2/top-headlines?country=in&apiKey=";
 // const GENERAL_NEWS = "https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey=";
 // const BUSINESS_NEWS = "https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=";
@@ -32,9 +33,11 @@ const fetchHeadlines = async () => {
     if(response.status >=200 && response.status < 300) {
         const myJson = await response.json();
         console.log("hello");
+        console.log(myJson.response.docs);
         // newsDataArr = myJson.articles;
         // newsdetails.innerHTML=myJson.data[0].title;
-        newsDataArr = myJson.data;
+        // newsDataArr = myJson.data;
+        newsDataArr=myJson.response.docs;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -203,18 +206,18 @@ function displayNews() {
         var card = document.createElement('div');
         card.className = "p-2";
 
-        var image = document.createElement('img');
-        image.setAttribute("height","matchparent");
-        image.setAttribute("width","100%");
-        image.src=news.image;
-        console.log(news.image);
+        // var image = document.createElement('img');
+        // image.setAttribute("height","matchparent");
+        // image.setAttribute("width","100%");
+        // image.src=news.image;
+        // console.log(news.image);
 
         var cardBody = document.createElement('div');
         
         var newsHeading = document.createElement('h5');
         newsHeading.className = "card-title";
-        newsHeading.innerHTML = news.title;
-        console.log(news.title);
+        newsHeading.innerHTML = news.abstract;
+        console.log(news.abstract);
 
         // var dateHeading = document.createElement('h6');
         // dateHeading.className = "text-primary";
@@ -222,7 +225,7 @@ function displayNews() {
 
         var discription = document.createElement('p');
         discription.className="text-muted";
-        discription.innerHTML = news.description;
+        discription.innerHTML = news.snippet;
 
         var link = document.createElement('a');
         link.className="btn btn-dark";
@@ -235,7 +238,7 @@ function displayNews() {
         cardBody.appendChild(discription);
         cardBody.appendChild(link);
 
-        card.appendChild(image);
+        // card.appendChild(image);
         card.appendChild(cardBody);
 
         col.appendChild(card);
